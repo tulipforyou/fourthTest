@@ -31,6 +31,9 @@ public:
     //标准输入对话框
     QPushButton *inputDia;
     QLabel *inputLabel;
+    //自定义对话框
+    QPushButton *costumBtn;
+    QLabel *costumLabel;
 
     ~Dialog();
 
@@ -38,6 +41,7 @@ private slots:
     void showFile();
     void showColor();
     void showInput();
+    void showCostumDia();
 
 private:
 

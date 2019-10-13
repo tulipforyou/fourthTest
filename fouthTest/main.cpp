@@ -13,14 +13,16 @@ standard normal box:
     QMessageDialog      :standard message dialog box
 */
 #include "dialog.h"
+#include "costumdiabyme.h"
 
 #include <QApplication>
+#include<QVBoxLayout>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Dialog w;
-    w.show();
+    Dialog w0;
+    w0.show();
     return a.exec();
 }
 

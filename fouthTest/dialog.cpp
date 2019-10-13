@@ -32,6 +32,13 @@ Dialog::Dialog(QWidget *parent)
     inputDia->setMaximumHeight(20);
     inputLabel=new QLabel();
     inputLabel->setFrameStyle(QFrame::Panel|QFrame::Sunken);
+    costumBtn=new QPushButton(tr("点击显示自定义对话框"));
+    costumBtn->setMinimumWidth(180);
+    costumBtn->setMinimumHeight(20);
+    costumBtn->setMaximumWidth(180);
+    costumBtn->setMaximumHeight(20);
+    costumLabel=new QLabel(tr("自定义对话框测试"));
+    costumLabel->setFrameStyle(QFrame::Panel|QFrame::Sunken);
 
     //布局管理
     mainLayout->addWidget(fileBtn,0,0);
@@ -40,9 +47,12 @@ Dialog::Dialog(QWidget *parent)
     mainLayout->addWidget(colorFrame,1,1);
     mainLayout->addWidget(inputDia,2,0);
     mainLayout->addWidget(inputLabel,2,1);
+    mainLayout->addWidget(costumBtn,3,0);
+    mainLayout->addWidget(costumLabel,3,1);
     connect(fileBtn,SIGNAL(clicked()),this,SLOT(showFile()));
     connect(colorCho,SIGNAL(clicked()),this,SLOT(showColor()));
     connect(inputDia,SIGNAL(clicked()),this,SLOT(showInput()));
+    connect(costumBtn,SIGNAL(clicked()),this,SLOT(showCostumDia()));
 }
 
 void Dialog::showFile()
@@ -57,7 +67,13 @@ void Dialog::showColor()
     if(clo.isValid())//判断有颜色被选择
         colorFrame->setPalette(QPalette(clo));
     else
-        mind->warning(this,"提示","请选择颜色");
+        switch(mind->warning(this,"提示","请选择颜色",QMessageBox::Cancel|QMessageBox::Ok,QMessageBox::Cancel))
+        {
+        case QMessageBox::Cancel:exit(0);
+        case QMessageBox::Ok:
+            showColor();
+            break;
+        }
 }
 
 void Dialog::showInput()
@@ -67,6 +83,23 @@ void Dialog::showInput()
     QString str=QInputDialog::getText(this,tr("标准输入对话框"),tr("请输入姓名"),QLineEdit::Normal,inputLabel->text(),&ok);
     if(ok&&!str.isEmpty())
         inputLabel->setText(str);
+}
+
+void Dialog::showCostumDia()
+{
+    QMessageBox costumMessBox;
+    costumMessBox.setWindowTitle(tr("自定义对话框"));
+    QPushButton *yesBtn=costumMessBox.addButton(tr("Yes"),QMessageBox::ActionRole);
+    QPushButton *noBtn=costumMessBox.addButton(tr("No"),QMessageBox::ActionRole);
+    QPushButton *cancelBtn=costumMessBox.addButton(QMessageBox::Cancel);
+    costumMessBox.setText(tr("这是一个自定义对话框哦"));
+    costumMessBox.exec();//显示此对话框
+    if(costumMessBox.clickedButton()==yesBtn)
+        costumLabel->setText(tr("点击了是"));
+    if(costumMessBox.clickedButton()==noBtn)
+        costumLabel->setText(tr("点击了否"));
+    if(costumMessBox.clickedButton()==cancelBtn)
+        costumLabel->setText(tr("点击了取消"));
 }
 
 Dialog::~Dialog()
