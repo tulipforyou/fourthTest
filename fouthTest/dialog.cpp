@@ -63,6 +63,7 @@ void Dialog::showColor()
 void Dialog::showInput()
 {
     bool ok;
+    //标准TEXT对话框，对应的还有getInt,getDouble等标准输入对话框
     QString str=QInputDialog::getText(this,tr("标准输入对话框"),tr("请输入姓名"),QLineEdit::Normal,inputLabel->text(),&ok);
     if(ok&&!str.isEmpty())
         inputLabel->setText(str);
