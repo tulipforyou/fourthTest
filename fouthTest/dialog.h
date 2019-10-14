@@ -12,6 +12,9 @@
 #include<QFontDialog>
 #include<QInputDialog>
 #include<QMessageBox>
+#include<QProgressBar>
+#include<QComboBox>
+#include<QProgressDialog>
 
 class Dialog : public QDialog
 {
@@ -34,6 +37,13 @@ public:
     //自定义对话框
     QPushButton *costumBtn;
     QLabel *costumLabel;
+    //进度条
+    QLabel *fileNum;
+    QLineEdit *fileNumLineEdit;
+    QLabel *progressType;
+    QComboBox *comboBox;
+    QProgressBar *progressBar;
+    QPushButton *startBtn;
 
     ~Dialog();
 
@@ -42,6 +52,7 @@ private slots:
     void showColor();
     void showInput();
     void showCostumDia();
+    void startProgress();
 
 private:
 

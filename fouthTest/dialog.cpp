@@ -39,6 +39,14 @@ Dialog::Dialog(QWidget *parent)
     costumBtn->setMaximumHeight(20);
     costumLabel=new QLabel(tr("自定义对话框测试"));
     costumLabel->setFrameStyle(QFrame::Panel|QFrame::Sunken);
+    fileNum=new QLabel(tr("文件数目"));
+    fileNumLineEdit=new QLineEdit;
+    progressType=new QLabel(tr("显示类型"));
+    comboBox=new QComboBox;
+    comboBox->addItem(tr("一类进度"));
+    comboBox->addItem(tr("二类进度"));
+    progressBar=new QProgressBar;
+    startBtn=new QPushButton(tr("点击开始"));
 
     //布局管理
     mainLayout->addWidget(fileBtn,0,0);
@@ -49,10 +57,19 @@ Dialog::Dialog(QWidget *parent)
     mainLayout->addWidget(inputLabel,2,1);
     mainLayout->addWidget(costumBtn,3,0);
     mainLayout->addWidget(costumLabel,3,1);
+
+    mainLayout->addWidget(fileNum,4,0);
+    mainLayout->addWidget(fileNumLineEdit,4,1);
+    mainLayout->addWidget(progressType,5,0);
+    mainLayout->addWidget(comboBox,5,1);
+    mainLayout->addWidget(startBtn,7,1);
+    mainLayout->addWidget(progressBar,6,1);
+
     connect(fileBtn,SIGNAL(clicked()),this,SLOT(showFile()));
     connect(colorCho,SIGNAL(clicked()),this,SLOT(showColor()));
     connect(inputDia,SIGNAL(clicked()),this,SLOT(showInput()));
     connect(costumBtn,SIGNAL(clicked()),this,SLOT(showCostumDia()));
+    connect(startBtn,SIGNAL(clicked()),this,SLOT(startProgress()));
 }
 
 void Dialog::showFile()
@@ -100,6 +117,38 @@ void Dialog::showCostumDia()
         costumLabel->setText(tr("点击了否"));
     if(costumMessBox.clickedButton()==cancelBtn)
         costumLabel->setText(tr("点击了取消"));
+}
+
+void Dialog::startProgress()
+{
+    bool ok;
+    int num=fileNumLineEdit->text().toInt(&ok);
+    if(comboBox->currentIndex()==0)//进度条形式显示
+    {
+        progressBar->setRange(0,num);
+        for(int i=1;i<=num;i++)
+            progressBar->setValue(i);
+    }
+    /*
+暂时不可用，还不知道原因
+*/
+    else if(comboBox->currentIndex()==1) //进度对话框显示
+    {
+        QProgressDialog *progressDialog=new QProgressDialog(this);
+        progressDialog->setWindowModality(Qt::WindowModal);//模态方式对话框，不影响其他对话框输入
+        progressDialog->setMinimumDuration(4);//设置对话框出现需要等待的时间
+        progressDialog->setWindowTitle(tr("Please wait"));
+        progressDialog->setLabelText(tr("copying......"));
+        progressDialog->setCancelButtonText(tr("Cancel"));
+        progressDialog->setRange(0,num);
+        for(int i=1;i<=num;i++)
+        {
+             progressDialog->setValue(i);
+             if(progressDialog->wasCanceled())
+                 return;
+        }
+
+    }
 }
 
 Dialog::~Dialog()

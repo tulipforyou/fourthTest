@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
     toolBox t0;
 
 
-    //w0.show();
-    t0.show();
+    w0.show();
+    //t0.show();
     return a.exec();
 }
 

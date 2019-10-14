@@ -24,5 +24,5 @@ toolBox::toolBox(QWidget *parent)
 
     this->addItem(group1,tr("男"));
     this->addItem(group2,tr("女"));
-    this->setGeometry(500,500,200,200);
+    this->setGeometry(500,500,300,200);
 }
