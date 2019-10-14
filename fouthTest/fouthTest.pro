@@ -18,11 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     costumdiabyme.cpp \
     main.cpp \
-    dialog.cpp
+    dialog.cpp \
+    toolbox.cpp
 
 HEADERS += \
     costumdiabyme.h \
-    dialog.h
+    dialog.h \
+    toolbox.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

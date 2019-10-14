@@ -14,6 +14,7 @@ standard normal box:
 */
 #include "dialog.h"
 #include "costumdiabyme.h"
+#include "toolbox.h"
 
 #include <QApplication>
 #include<QVBoxLayout>
@@ -22,7 +23,11 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Dialog w0;
-    w0.show();
+    toolBox t0;
+
+
+    //w0.show();
+    t0.show();
     return a.exec();
 }
 
